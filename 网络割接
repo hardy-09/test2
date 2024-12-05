@@ -1,0 +1,37 @@
+interface Vlanif3560
+ description CUS:TangHu:HK-GZ:LANtoLAN
+ ip binding vpn-instance CUS:TangHu:HK
+ ip address 10.35.60.2 255.255.255.252
+ statistics enable
+
+interface Vlanif3563
+ description CUS:TangHu:CU-CXT:LANtoLAN
+ ip binding vpn-instance CUS:TangHu:HK:CXT
+ ip address 10.35.63.2 255.255.255.252
+
+interface Vlanif3914
+ description CUS:TangHu:HK:CXT
+ ip binding vpn-instance CUS:TangHu:HK:CXT
+ ip address 10.39.14.2 255.255.255.252
+ ip address 104.251.224.1 255.255.255.0 sub
+ bandwidth 10000
+ statistics enable
+
+interface Vlanif3958
+ ip binding vpn-instance CUS:TangHu:HK
+ ip address 10.39.58.2 255.255.255.252
+ ip address 166.0.100.193 255.255.255.224 sub
+ ip address 166.0.100.241 255.255.255.240 sub
+ bandwidth 1000000
+ statistics enable
+
+[~HK:Megagateway:06:00:04:02:CE6881]   dis cu | in  CUS:TangHu:HK 
+ip route-static vpn-instance CUS:TangHu:HK 0.0.0.0 0.0.0.0 10.39.58.1 description Default:IPT:HK
+ip route-static vpn-instance CUS:TangHu:HK 14.29.110.0 255.255.255.0 10.35.60.1 description CUS:TangHu:HK-GZ:LANtoLAN
+ip route-static vpn-instance CUS:TangHu:HK 14.119.112.0 255.255.255.0 10.35.60.1 description CUS:TangHu:HK-GZ:LANtoLAN
+
+[~HK:Megagateway:06:00:04:02:CE6881]   dis cu | in  CUS:TangHu:HK:CXT
+ip route-static vpn-instance CUS:TangHu:HK:CXT 0.0.0.0 0.0.0.0 10.39.14.1 description default
+ip route-static vpn-instance CUS:TangHu:HK:CXT 14.29.110.0 255.255.255.0 vpn-instance CUS:TangHu:HK 10.35.60.1 description CUS:TangHu:LANtoLAN
+ip route-static vpn-instance CUS:TangHu:HK:CXT 14.119.112.0 255.255.255.0 vpn-instance CUS:TangHu:HK 10.35.60.1 description CUS:TangHu:LANtoLAN
+ip route-static vpn-instance CUS:TangHu:HK:CXT 163.177.58.0 255.255.255.0 10.35.63.1 description CUS:TangHu:LANtoLAN
